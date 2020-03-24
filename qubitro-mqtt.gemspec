@@ -9,8 +9,8 @@ Gem::Specification.new do |gem|
   gem.author      = 'Qubitro'
   gem.email       = 'social@qubitro.com'
   gem.homepage    = 'https://github.com/qubitro/mqtt-client-ruby'
-  gem.summary     = 'Implementation of the MQTT protocol'
-  gem.description = 'Pure Ruby gem that implements the MQTT protocol, a lightweight protocol for publish/subscribe messaging.'
+  gem.summary     = 'Implementation of the MQTT protocol for Qubitro IoT platform. More info: docs.qubitro.com'
+  gem.description = 'Modern Ruby library that implements the MQTT protocol, a lightweight protocol for publish/subscribe messaging.'
   gem.license     = 'MIT' if gem.respond_to?(:license=)
 
   gem.rubyforge_project = 'qubitro-mqtt'
