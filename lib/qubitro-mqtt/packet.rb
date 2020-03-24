@@ -422,11 +422,11 @@ module MQTT
         # The payload of the Will message
         attr_accessor :will_payload
   
-        # The deviceId for authenticating with the server
-        attr_accessor :deviceId
+        # The device_id for authenticating with the server
+        attr_accessor :device_id
   
-        # The deviceToken for authenticating with the server
-        attr_accessor :deviceToken
+        # The device_token for authenticating with the server
+        attr_accessor :device_token
   
         # Default attribute values
         ATTR_DEFAULTS = {
@@ -438,8 +438,8 @@ module MQTT
           :ack_timeout => 15,
           :will_retain => false,
           :will_payload => '',
-          :deviceId => nil,
-          :deviceToken => nil
+          :device_id => nil,
+          :device_token => nil
         }
   
         # Create a new Client Connect packet
@@ -479,8 +479,8 @@ module MQTT
           @connect_flags |= 0x04 unless @will_topic.nil?
           @connect_flags |= ((@will_qos & 0x03) << 3)
           @connect_flags |= 0x20 if @will_retain
-          @connect_flags |= 0x40 unless @deviceToken.nil?
-          @connect_flags |= 0x80 unless @deviceId.nil?
+          @connect_flags |= 0x40 unless @device_token.nil?
+          @connect_flags |= 0x80 unless @device_id.nil?
           body += encode_bytes(@connect_flags)
   
           body += encode_short(@keep_alive)
@@ -490,8 +490,8 @@ module MQTT
             # The MQTT v3.1 specification says that the payload is a UTF-8 string
             body += encode_string(@will_payload)
           end
-          body += encode_string(@deviceId) unless @deviceId.nil?
-          body += encode_string(@deviceToken) unless @deviceToken.nil?
+          body += encode_string(@device_id) unless @device_id.nil?
+          body += encode_string(@device_token) unless @device_token.nil?
           body
         end
   
@@ -521,10 +521,10 @@ module MQTT
             @will_payload = shift_string(buffer)
           end
           if ((@connect_flags & 0x80) >> 7) == 0x01 && buffer.bytesize > 0
-            @deviceId = shift_string(buffer)
+            @device_id = shift_string(buffer)
           end
           if ((@connect_flags & 0x40) >> 6) == 0x01 && buffer.bytesize > 0 # rubocop: disable Style/GuardClause
-            @deviceToken = shift_string(buffer)
+            @device_token = shift_string(buffer)
           end
         end
   
@@ -534,8 +534,8 @@ module MQTT
                 "keep_alive=#{keep_alive}"
           str += ', clean' if clean_session
           str += ", client_id='#{client_id}'"
-          str += ", deviceId='#{deviceId}'" unless deviceId.nil?
-          str += ', deviceToken=...' unless deviceToken.nil?
+          str += ", device_id='#{device_id}'" unless device_id.nil?
+          str += ', device_token=...' unless device_token.nil?
           str + '>'
         end
   

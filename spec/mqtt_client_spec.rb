@@ -109,28 +109,28 @@ describe MQTT::Client do
       expect(client.ssl).to be_truthy
     end
 
-    it "with a URI containing a deviceId and deviceToken" do
+    it "with a URI containing a device_id and device_token" do
       client = MQTT::Client.new(URI.parse('mqtt://auser:bpass@mqtt.example.com'))
       expect(client.host).to eq('mqtt.example.com')
       expect(client.port).to eq(1883)
-      expect(client.deviceId).to eq('auser')
-      expect(client.deviceToken).to eq('bpass')
+      expect(client.device_id).to eq('auser')
+      expect(client.device_token).to eq('bpass')
     end
 
-    it "with a URI containing an escaped deviceId and deviceToken" do
+    it "with a URI containing an escaped device_id and device_token" do
       client = MQTT::Client.new(URI.parse('mqtt://foo%20bar:%40123%2B%25@mqtt.example.com'))
       expect(client.host).to eq('mqtt.example.com')
       expect(client.port).to eq(1883)
-      expect(client.deviceId).to eq('foo bar')
-      expect(client.deviceToken).to eq('@123+%')
+      expect(client.device_id).to eq('foo bar')
+      expect(client.device_token).to eq('@123+%')
     end
 
-    it "with a URI containing a double escaped deviceId and deviceToken" do
+    it "with a URI containing a double escaped device_id and device_token" do
       client = MQTT::Client.new(URI.parse('mqtt://foo%2520bar:123%2525@mqtt.example.com'))
       expect(client.host).to eq('mqtt.example.com')
       expect(client.port).to eq(1883)
-      expect(client.deviceId).to eq('foo%20bar')
-      expect(client.deviceToken).to eq('123%25')
+      expect(client.device_id).to eq('foo%20bar')
+      expect(client.device_token).to eq('123%25')
     end
 
     it "with a URI as a string" do
@@ -334,9 +334,9 @@ describe MQTT::Client do
       client.connect('myclient')
     end
 
-    it "should include the deviceId and deviceToken for an authenticated connection" do
-      client.deviceId = 'deviceId'
-      client.deviceToken = 'deviceToken'
+    it "should include the device_id and device_token for an authenticated connection" do
+      client.device_id = 'device_id'
+      client.device_token = 'device_token'
       client.connect('myclient')
       expect(socket.string).to eq(
         "\x10\x28"+

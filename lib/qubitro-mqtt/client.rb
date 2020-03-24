@@ -36,10 +36,10 @@ module MQTT
     attr_accessor :ack_timeout
 
     # Device ID to authenticate to the server with
-    attr_accessor :deviceId
+    attr_accessor :device_id
 
     # Device Token to authenticate to the server with
-    attr_accessor :deviceToken
+    attr_accessor :device_token
 
     # The topic that the Will message is published to
     attr_accessor :will_topic
@@ -68,8 +68,8 @@ module MQTT
       :clean_session => true,
       :client_id => nil,
       :ack_timeout => 5,
-      :deviceId => nil,
-      :deviceToken => nil,
+      :device_id => nil,
+      :device_token => nil,
       :will_topic => nil,
       :will_payload => nil,
       :will_qos => 0,
@@ -252,8 +252,8 @@ module MQTT
           :clean_session => @clean_session,
           :keep_alive => @keep_alive,
           :client_id => @client_id,
-          :deviceId => @deviceId,
-          :deviceToken => @deviceToken,
+          :device_id => @device_id,
+          :device_token => @device_token,
           :will_topic => @will_topic,
           :will_payload => @will_payload,
           :will_qos => @will_qos,
@@ -579,8 +579,8 @@ module MQTT
       {
         :host => uri.host,
         :port => uri.port || nil,
-        :deviceId => uri.user ? URI.unescape(uri.user) : nil,
-        :deviceToken => uri.password ? URI.unescape(uri.password) : nil,
+        :device_id => uri.device_id ? URI.unescape(uri.device_id) : nil,
+        :device_token => uri.device_token ? URI.unescape(uri.device_token) : nil,
         :ssl => ssl
       }
     end
