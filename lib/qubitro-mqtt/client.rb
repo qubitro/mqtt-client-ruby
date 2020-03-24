@@ -35,11 +35,11 @@ module MQTT
     # Number of seconds to wait for acknowledgement packets (default is 5 seconds)
     attr_accessor :ack_timeout
 
-    # Username to authenticate to the server with
-    attr_accessor :username
+    # Device ID to authenticate to the server with
+    attr_accessor :deviceId
 
-    # Password to authenticate to the server with
-    attr_accessor :password
+    # Device Token to authenticate to the server with
+    attr_accessor :deviceToken
 
     # The topic that the Will message is published to
     attr_accessor :will_topic
@@ -68,8 +68,8 @@ module MQTT
       :clean_session => true,
       :client_id => nil,
       :ack_timeout => 5,
-      :username => nil,
-      :password => nil,
+      :deviceId => nil,
+      :deviceToken => nil,
       :will_topic => nil,
       :will_payload => nil,
       :will_qos => 0,
@@ -252,8 +252,8 @@ module MQTT
           :clean_session => @clean_session,
           :keep_alive => @keep_alive,
           :client_id => @client_id,
-          :username => @username,
-          :password => @password,
+          :deviceId => @deviceId,
+          :deviceToken => @deviceToken,
           :will_topic => @will_topic,
           :will_payload => @will_payload,
           :will_qos => @will_qos,
@@ -579,8 +579,8 @@ module MQTT
       {
         :host => uri.host,
         :port => uri.port || nil,
-        :username => uri.user ? URI.unescape(uri.user) : nil,
-        :password => uri.password ? URI.unescape(uri.password) : nil,
+        :deviceId => uri.user ? URI.unescape(uri.user) : nil,
+        :deviceToken => uri.password ? URI.unescape(uri.password) : nil,
         :ssl => ssl
       }
     end

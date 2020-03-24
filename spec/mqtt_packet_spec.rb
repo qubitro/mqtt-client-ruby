@@ -541,19 +541,19 @@ describe MQTT::Packet::Connect do
       )
     end
 
-    it "should output the correct bytes for a packet with a username and password" do
+    it "should output the correct bytes for a packet with a deviceId and deviceToken" do
       packet = MQTT::Packet::Connect.new(
         :client_id => 'myclient',
-        :username => 'username',
-        :password => 'password'
+        :deviceId => 'deviceId',
+        :deviceToken => 'deviceToken'
       )
       expect(packet.to_s).to eq(
         "\x10\x2A"+
         "\x00\x06MQIsdp"+
         "\x03\xC2\x00\x0f"+
         "\x00\x08myclient"+
-        "\x00\x08username"+
-        "\x00\x08password"
+        "\x00\x08deviceId"+
+        "\x00\x08deviceToken"
       )
     end
 
@@ -566,8 +566,8 @@ describe MQTT::Packet::Connect do
         :will_retain => true,
         :will_topic => 'will_topic',
         :will_payload => 'will_message',
-        :username => 'user0123456789',
-        :password => 'pass0123456789'
+        :deviceId => 'user0123456789',
+        :deviceToken => 'pass0123456789'
       )
       expect(packet.to_s).to eq(
         "\x10\x5F"+ # fixed header (2)
@@ -577,9 +577,9 @@ describe MQTT::Packet::Connect do
         "\x00\x1712345678901234567890123"+ # client identifier (25)
         "\x00\x0Awill_topic"+ # will topic (12)
         "\x00\x0Cwill_message"+ # will message (14)
-        "\x00\x0Euser0123456789"+ # username (16)
+        "\x00\x0Euser0123456789"+ # deviceId (16)
         "\x00\x0Epass0123456789"
-      )  # password (16)
+      )  # deviceToken (16)
     end
 
     context 'protocol version 3.1.1' do
@@ -643,12 +643,12 @@ describe MQTT::Packet::Connect do
       expect(packet.clean_session).to be_falsey
     end
 
-    it "should set the the username field of the packet to nil" do
-      expect(packet.username).to be_nil
+    it "should set the the deviceId field of the packet to nil" do
+      expect(packet.deviceId).to be_nil
     end
 
-    it "should set the the password field of the packet to nil" do
-      expect(packet.password).to be_nil
+    it "should set the the deviceToken field of the packet to nil" do
+      expect(packet.deviceToken).to be_nil
     end
   end
 
@@ -693,12 +693,12 @@ describe MQTT::Packet::Connect do
       expect(packet.clean_session).to be_falsey
     end
 
-    it "should set the the username field of the packet to nil" do
-      expect(packet.username).to be_nil
+    it "should set the the deviceId field of the packet to nil" do
+      expect(packet.deviceId).to be_nil
     end
 
-    it "should set the the password field of the packet to nil" do
-      expect(packet.password).to be_nil
+    it "should set the the deviceToken field of the packet to nil" do
+      expect(packet.deviceToken).to be_nil
     end
   end
 
@@ -770,15 +770,15 @@ describe MQTT::Packet::Connect do
     end
   end
 
-  describe "when parsing a Connect packet with a username and password" do
+  describe "when parsing a Connect packet with a deviceId and deviceToken" do
     let(:packet) do
       MQTT::Packet.parse(
         "\x10\x2A"+
         "\x00\x06MQIsdp"+
         "\x03\xC0\x00\x0a"+
         "\x00\x08myclient"+
-        "\x00\x08username"+
-        "\x00\x08password"
+        "\x00\x08deviceId"+
+        "\x00\x08deviceToken"
       )
     end
 
@@ -812,64 +812,64 @@ describe MQTT::Packet::Connect do
       expect(packet.keep_alive).to eq(10)
     end
 
-    it "should set the Username of the packet correctly" do
-      expect(packet.username).to eq('username')
-      expect(packet.username.encoding.to_s).to eq('UTF-8')
+    it "should set the Device ID of the packet correctly" do
+      expect(packet.deviceId).to eq('deviceId')
+      expect(packet.deviceId.encoding.to_s).to eq('UTF-8')
     end
 
-    it "should set the Username of the packet correctly" do
-      expect(packet.password).to eq('password')
-      expect(packet.password.encoding.to_s).to eq('UTF-8')
+    it "should set the Device ID of the packet correctly" do
+      expect(packet.deviceToken).to eq('deviceToken')
+      expect(packet.deviceToken.encoding.to_s).to eq('UTF-8')
     end
   end
 
-  describe "when parsing a Connect that has a username but no password" do
+  describe "when parsing a Connect that has a deviceId but no deviceToken" do
     let(:packet) do
       MQTT::Packet.parse(
-        "\x10\x20\x00\x06MQIsdp\x03\x80\x00\x0a\x00\x08myclient\x00\x08username"
+        "\x10\x20\x00\x06MQIsdp\x03\x80\x00\x0a\x00\x08myclient\x00\x08deviceId"
       )
     end
 
-    it "should set the Username of the packet correctly" do
-      expect(packet.username).to eq('username')
-      expect(packet.username.encoding.to_s).to eq('UTF-8')
+    it "should set the Device ID of the packet correctly" do
+      expect(packet.deviceId).to eq('deviceId')
+      expect(packet.deviceId.encoding.to_s).to eq('UTF-8')
     end
 
-    it "should set the Username of the packet correctly" do
-      expect(packet.password).to be_nil
+    it "should set the Device ID of the packet correctly" do
+      expect(packet.deviceToken).to be_nil
     end
   end
 
-  describe "when parsing a Connect that has a password but no username" do
+  describe "when parsing a Connect that has a deviceToken but no deviceId" do
     let(:packet) do
       MQTT::Packet.parse(
-        "\x10\x20\x00\x06MQIsdp\x03\x40\x00\x0a\x00\x08myclient\x00\x08password"
+        "\x10\x20\x00\x06MQIsdp\x03\x40\x00\x0a\x00\x08myclient\x00\x08deviceToken"
       )
     end
 
-    it "should set the Username of the packet correctly" do
-      expect(packet.username).to be_nil
+    it "should set the Device ID of the packet correctly" do
+      expect(packet.deviceId).to be_nil
     end
 
-    it "should set the Username of the packet correctly" do
-      expect(packet.password).to eq('password')
-      expect(packet.password.encoding.to_s).to eq('UTF-8')
+    it "should set the Device ID of the packet correctly" do
+      expect(packet.deviceToken).to eq('deviceToken')
+      expect(packet.deviceToken.encoding.to_s).to eq('UTF-8')
     end
   end
 
-  describe "when parsing a Connect packet has the username and password flags set but doesn't have the fields" do
+  describe "when parsing a Connect packet has the deviceId and deviceToken flags set but doesn't have the fields" do
     let(:packet) do
       MQTT::Packet.parse(
         "\x10\x16\x00\x06MQIsdp\x03\xC0\x00\x0a\x00\x08myclient"
       )
     end
 
-    it "should set the Username of the packet correctly" do
-      expect(packet.username).to be_nil
+    it "should set the Device ID of the packet correctly" do
+      expect(packet.deviceId).to be_nil
     end
 
-    it "should set the Username of the packet correctly" do
-      expect(packet.password).to be_nil
+    it "should set the Device ID of the packet correctly" do
+      expect(packet.deviceToken).to be_nil
     end
   end
 
@@ -883,8 +883,8 @@ describe MQTT::Packet::Connect do
         "\x00\x1712345678901234567890123"+ # client identifier (25)
         "\x00\x0Awill_topic"+ # will topic (12)
         "\x00\x0Cwill_message"+ # will message (14)
-        "\x00\x0Euser0123456789"+ # username (16)
-        "\x00\x0Epass0123456789"  # password (16)
+        "\x00\x0Euser0123456789"+ # deviceId (16)
+        "\x00\x0Epass0123456789"  # deviceToken (16)
       )
     end
 
@@ -936,14 +936,14 @@ describe MQTT::Packet::Connect do
       expect(packet.will_payload.encoding.to_s).to eq('UTF-8')
     end
 
-    it "should set the Username of the packet correctly" do
-      expect(packet.username).to eq('user0123456789')
-      expect(packet.username.encoding.to_s).to eq('UTF-8')
+    it "should set the Device ID of the packet correctly" do
+      expect(packet.deviceId).to eq('user0123456789')
+      expect(packet.deviceId.encoding.to_s).to eq('UTF-8')
     end
 
-    it "should set the Username of the packet correctly" do
-      expect(packet.password).to eq('pass0123456789')
-      expect(packet.password.encoding.to_s).to eq('UTF-8')
+    it "should set the Device ID of the packet correctly" do
+      expect(packet.deviceToken).to eq('pass0123456789')
+      expect(packet.deviceToken.encoding.to_s).to eq('UTF-8')
     end
   end
 
@@ -997,9 +997,9 @@ describe MQTT::Packet::Connect do
         :keep_alive => 10,
         :client_id => 'c123',
         :clean_session => false,
-        :username => 'foo'
+        :deviceId => 'foo'
       )
-      expect(packet.inspect).to eq("#<MQTT::Packet::Connect: keep_alive=10, client_id='c123', username='foo'>")
+      expect(packet.inspect).to eq("#<MQTT::Packet::Connect: keep_alive=10, client_id='c123', deviceId='foo'>")
     end
   end
 
@@ -1167,7 +1167,7 @@ describe MQTT::Packet::Connack do
     end
 
     it "should set the return message of the packet correctly" do
-      expect(packet.return_msg).to match(/bad user name or password/i)
+      expect(packet.return_msg).to match(/bad user name or deviceToken/i)
     end
   end
 

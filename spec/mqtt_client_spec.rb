@@ -109,28 +109,28 @@ describe MQTT::Client do
       expect(client.ssl).to be_truthy
     end
 
-    it "with a URI containing a username and password" do
+    it "with a URI containing a deviceId and deviceToken" do
       client = MQTT::Client.new(URI.parse('mqtt://auser:bpass@mqtt.example.com'))
       expect(client.host).to eq('mqtt.example.com')
       expect(client.port).to eq(1883)
-      expect(client.username).to eq('auser')
-      expect(client.password).to eq('bpass')
+      expect(client.deviceId).to eq('auser')
+      expect(client.deviceToken).to eq('bpass')
     end
 
-    it "with a URI containing an escaped username and password" do
+    it "with a URI containing an escaped deviceId and deviceToken" do
       client = MQTT::Client.new(URI.parse('mqtt://foo%20bar:%40123%2B%25@mqtt.example.com'))
       expect(client.host).to eq('mqtt.example.com')
       expect(client.port).to eq(1883)
-      expect(client.username).to eq('foo bar')
-      expect(client.password).to eq('@123+%')
+      expect(client.deviceId).to eq('foo bar')
+      expect(client.deviceToken).to eq('@123+%')
     end
 
-    it "with a URI containing a double escaped username and password" do
+    it "with a URI containing a double escaped deviceId and deviceToken" do
       client = MQTT::Client.new(URI.parse('mqtt://foo%2520bar:123%2525@mqtt.example.com'))
       expect(client.host).to eq('mqtt.example.com')
       expect(client.port).to eq(1883)
-      expect(client.username).to eq('foo%20bar')
-      expect(client.password).to eq('123%25')
+      expect(client.deviceId).to eq('foo%20bar')
+      expect(client.deviceToken).to eq('123%25')
     end
 
     it "with a URI as a string" do
@@ -334,17 +334,17 @@ describe MQTT::Client do
       client.connect('myclient')
     end
 
-    it "should include the username and password for an authenticated connection" do
-      client.username = 'username'
-      client.password = 'password'
+    it "should include the deviceId and deviceToken for an authenticated connection" do
+      client.deviceId = 'deviceId'
+      client.deviceToken = 'deviceToken'
       client.connect('myclient')
       expect(socket.string).to eq(
         "\x10\x28"+
         "\x00\x04MQTT"+
         "\x04\xC2\x00\x0f"+
         "\x00\x08myclient"+
-        "\x00\x08username"+
-        "\x00\x08password"
+        "\x00\x08deviceId"+
+        "\x00\x08deviceToken"
       )
     end
 
