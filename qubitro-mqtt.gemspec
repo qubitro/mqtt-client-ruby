@@ -22,11 +22,11 @@ Gem::Specification.new do |gem|
 
   if Gem.ruby_version > Gem::Version.new('2.0')
     gem.add_development_dependency 'bundler',  '>= 1.11.2'
-    gem.add_development_dependency 'rake',     '>= 12.3.3'
+    gem.add_development_dependency 'rake',     '>= 13.0.1'
     gem.add_development_dependency 'yard',     '>= 0.9.20'
-    gem.add_development_dependency 'rspec',    '>= 3.5.0'
-    gem.add_development_dependency 'simplecov','>= 0.9.2'
-    gem.add_development_dependency 'rubocop',  '~> 0.48.0'
+    gem.add_development_dependency 'rspec',    '>= 3.9.0'
+    gem.add_development_dependency 'simplecov','>= 0.18.5'
+    gem.add_development_dependency 'rubocop',  '~> 0.80.1'
   else
     raise "#{Gem.ruby_version} is an unsupported version of ruby"
   end

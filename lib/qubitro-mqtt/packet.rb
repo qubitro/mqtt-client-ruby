@@ -435,6 +435,7 @@ module MQTT
           :keep_alive => 15,
           :will_topic => nil,
           :will_qos => 0,
+          :ack_timeout => 15,
           :will_retain => false,
           :will_payload => '',
           :username => nil,
