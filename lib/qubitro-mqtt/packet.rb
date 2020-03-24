@@ -410,6 +410,8 @@ module MQTT
         # Period the server should keep connection open for between pings
         attr_accessor :keep_alive
   
+        attr_accessor :ack_timeout
+
         # The topic name to send the Will message to
         attr_accessor :will_topic
   

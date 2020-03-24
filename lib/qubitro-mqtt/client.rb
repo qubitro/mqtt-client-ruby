@@ -252,7 +252,6 @@ module MQTT
           :clean_session => @clean_session,
           :keep_alive => @keep_alive,
           :client_id => @client_id,
-          :ack_timeout => @ack_timeout,
           :device_id => @device_id,
           :device_token => @device_token,
           :will_topic => @will_topic,
