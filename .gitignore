@@ -1,0 +1,10 @@
+
+spec/.DS_Store
+.bundle
+.ruby-version
+.ruby-gemset
+.yardoc
+*.gem
+coverage
+doc
+Gemfile.lock
